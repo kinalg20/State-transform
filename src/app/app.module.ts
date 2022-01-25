@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { FetchcityState } from './store/state/comp.state';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +19,7 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxsModule.forRoot(),
+    NgxsModule.forRoot([FetchcityState]),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot()
 

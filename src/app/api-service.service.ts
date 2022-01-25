@@ -9,7 +9,7 @@ export class ApiServiceService {
     this.getdata()
    }
   getdata(){
-    console.log("hello")
+    // console.log("hello")
     return this.http.get('https://jusbid.in:1337/get-popular-hotels')
   }
 }

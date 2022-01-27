@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Fetchcity } from '../store/actions/comp.action';
+import { Fetchcity, Getaminties } from '../store/actions/comp.action';
 import { FetchcityState } from '../store/state/comp.state';
 @Component({
   selector: 'app-comp1',
@@ -10,31 +10,47 @@ import { FetchcityState } from '../store/state/comp.state';
 })
 export class Comp1Component implements OnInit {
   apidta: any[] = [];
-  fetchdatadestroy: any;
+
+  fetchhoteldestroy: any;
+  fetchaminitydestroy:any;
   constructor(private store: Store) {
   }
-  @Select(FetchcityState.getFetchedcity) apidta$!: Observable<any>;
-  @Select(FetchcityState.cityloaded) apiloaded$!: Observable<boolean>;
+  @Select(FetchcityState.getFetchedcity) hoteldata$!: Observable<any>;
+  @Select(FetchcityState.cityLoaded) hoteldataloader$!: Observable<boolean>;
+  @Select(FetchcityState.getAminity) aminity$!: Observable<any>;
+  @Select(FetchcityState.aminityLoaded) aminityloader$!: Observable<boolean>;
   ngOnInit(): void {
     this.getdatafromapi();
-    this.apidta$.subscribe(res => {
-      console.log("data fomr state:", res)
+    this. getaminity()
+    this.hoteldata$.subscribe(res => {
+      
+    })
+    this.aminity$.subscribe(res => {
+      res?.responseCode?this.apidta=res.responseCode:this.apidta=[];
+      console.log("this.apidta",this.apidta);
     })
   }
   
 
   getdatafromapi() {
-    this.fetchdatadestroy = this.apiloaded$.subscribe(loadedapi => {
-      console.log(loadedapi)
+    this.fetchhoteldestroy = this.hoteldataloader$.subscribe(loadedapi => {
       if (!loadedapi) {
-        console.log("Hii all")
         this.store.dispatch(new Fetchcity());
       }
     })
   }
 
+  getaminity() {
+      this.fetchaminitydestroy=this.aminityloader$.subscribe(loadedapi=>{
+      if (!loadedapi) {
+        this.store.dispatch(new Getaminties());
+      }
+    })
+  }
+
   ngOnDestroy(){
-    this.fetchdatadestroy.unsubscribe()
+    this.fetchhoteldestroy.unsubscribe();
+    this.fetchaminitydestroy.unsubscribe();
   }
 
 }

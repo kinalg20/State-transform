@@ -6,10 +6,13 @@ import {HttpClient} from '@angular/common/http'
 export class ApiServiceService {
 
   constructor(private http:HttpClient) {
-    this.getdata()
    }
-  getdata(){
+  gethoteldata(){
     // console.log("hello")
     return this.http.get('https://jusbid.in:1337/get-popular-hotels')
+  }
+  getaminitydata(){
+    // console.log("hello")
+    return this.http.get('https://jusbid.in:1337/get-amenities')
   }
 }

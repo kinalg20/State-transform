@@ -9,28 +9,30 @@ import { FetchcityState } from '../store/state/comp.state';
   styleUrls: ['./comp1.component.scss']
 })
 export class Comp1Component implements OnInit {
-  apidta: any[] = [];
+  hoteldata: any[] = [];
+  aminitydata: any[] = [];
 
   fetchhoteldestroy: any;
-  fetchaminitydestroy:any;
+  fetchaminitydestroy: any;
   constructor(private store: Store) {
   }
   @Select(FetchcityState.getFetchedcity) hoteldata$!: Observable<any>;
   @Select(FetchcityState.cityLoaded) hoteldataloader$!: Observable<boolean>;
-  @Select(FetchcityState.getAminity) aminity$!: Observable<any>;
+  @Select(FetchcityState.getAminity) aminitydata$!: Observable<any>;
   @Select(FetchcityState.aminityLoaded) aminityloader$!: Observable<boolean>;
   ngOnInit(): void {
     this.getdatafromapi();
-    this. getaminity()
+    this.getaminity()
     this.hoteldata$.subscribe(res => {
-      
+      res?.data ? this.hoteldata = res.data : this.hoteldata = [];
+      console.log("this.hoteldata", this.hoteldata);
     })
-    this.aminity$.subscribe(res => {
-      res?.responseCode?this.apidta=res.responseCode:this.apidta=[];
-      console.log("this.apidta",this.apidta);
+    this.aminitydata$.subscribe(res => {
+      res?.data ? this.aminitydata = res.data : this.aminitydata = [];
+      console.log("this.aminitydata", this.aminitydata);
     })
   }
-  
+
 
   getdatafromapi() {
     this.fetchhoteldestroy = this.hoteldataloader$.subscribe(loadedapi => {
@@ -41,16 +43,15 @@ export class Comp1Component implements OnInit {
   }
 
   getaminity() {
-      this.fetchaminitydestroy=this.aminityloader$.subscribe(loadedapi=>{
-      if (!loadedapi) {
+    this.fetchaminitydestroy = this.aminityloader$.subscribe(loadapi => {
+      if (!loadapi) {
         this.store.dispatch(new Getaminties());
       }
     })
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.fetchhoteldestroy.unsubscribe();
     this.fetchaminitydestroy.unsubscribe();
   }
-
 }

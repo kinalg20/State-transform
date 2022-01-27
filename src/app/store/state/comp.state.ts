@@ -5,19 +5,19 @@ import { Fetchcity, Getaminties } from "../actions/comp.action";
 import { tap } from 'rxjs/operators'
 export class FetchcityStateModel {
     cities: any;
-    citiesLoaded!:boolean
+    citiesLoaded!: boolean
 }
 
 export class AminityStateModel {
     aminities: any;
-    aminityLoaded!:boolean
+    aminityLoaded!: boolean
 }
 
 @State<FetchcityStateModel>({
     name: 'fetchcity',
     defaults: {
         cities: [],
-        citiesLoaded:false
+        citiesLoaded: false
     }
 })
 
@@ -25,7 +25,7 @@ export class AminityStateModel {
     name: 'getaminity',
     defaults: {
         aminities: [],
-        aminityLoaded:false
+        aminityLoaded: false
     }
 })
 
@@ -44,13 +44,13 @@ export class FetchcityState {
     }
 
     @Selector()
-    static getAminity(state: AminityStateModel) {
-        return state.aminities;
+    static getAminity(aminitystate: AminityStateModel) {
+        return aminitystate.aminities;
     }
 
     @Selector()
-    static aminityLoaded(state: AminityStateModel) {
-        return state.aminityLoaded;
+    static aminityLoaded(aminitystate: AminityStateModel) {
+        return aminitystate.aminityLoaded;
     }
 
     @Action(Fetchcity)
@@ -59,54 +59,21 @@ export class FetchcityState {
             const state = getState();
             setState({
                 ...state,
-                cities:res,
-                citiesLoaded:true
-            })
-            // console.log("state",state);
+                cities: res,
+                citiesLoaded: true
+            });
         }))
     }
 
     @Action(Getaminties)
     getaminities({ getState, setState }: StateContext<AminityStateModel>) {
         return this.apidata.getaminitydata().pipe(tap(res => {
-            const aminity_state = getState();
-            console.log("aminity_state",aminity_state);
+            const aminitystate = getState();
             setState({
-                ...aminity_state,
-                aminities:res,
-                aminityLoaded:true
-            })
-            console.log("aminity_state",aminity_state);
+                ...aminitystate,
+                aminities: res,
+                aminityLoaded: true
+            });
         }))
-
     }
 }
-
-// @Injectable()
-// export class GetaminitesState {
-//     //selector has logic
-//     constructor(private apidata: ApiServiceService) { }
-//     @Selector()
-//     static getaminity(state: AminityStateModel) {
-//         return state.aminities;
-//     }
-
-//     @Selector()
-//     // static cityloaded(state: AminityStateModel) {
-//     //     return state.aminityLoaded;
-//     // }
-
-//     @Action(Getaminties)
-//     getaminity({ getState, setState }: StateContext<AminityStateModel>) {
-//         console.log("Afmakdlfadmf")
-//         // return this.apidata.getdata().pipe(tap(res => {
-//         //     const state = getState();
-//         //     setState({
-//         //         ...state,
-//         //         aminities:res,
-//         //         aminityLoaded:true
-//         //     })
-//         //     console.log("state1",state);
-//         // }))
-//     }
-// }
